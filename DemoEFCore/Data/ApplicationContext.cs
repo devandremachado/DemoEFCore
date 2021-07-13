@@ -15,6 +15,7 @@ namespace DemoEFCore.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            //Configura todas classes que herdam de IEntityTypeConfiguration
             builder.ApplyConfigurationsFromAssembly(typeof(ApplicationContext).Assembly);
         }
     }

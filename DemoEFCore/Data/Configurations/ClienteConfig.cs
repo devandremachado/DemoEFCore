@@ -16,8 +16,10 @@ namespace DemoEFCore.Data.Configurations
             builder.Property(p => p.CEP).HasColumnType("CHAR(8)").IsRequired();
             builder.Property(p => p.Estado).HasColumnType("VARCHAR(2)").IsRequired();
             builder.Property(p => p.Cidade).HasMaxLength(60).IsRequired();
+            builder.Property(p => p.Email).HasColumnType("VARCHAR(80)").IsRequired();
 
             builder.HasIndex(i => i.Telefone);
+            builder.HasIndex(i => i.Email);
         }
     }
 }
