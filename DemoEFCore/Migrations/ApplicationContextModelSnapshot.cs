@@ -103,16 +103,10 @@ namespace DemoEFCore.Migrations
                     b.Property<decimal>("Desconto")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("IdPedido")
+                    b.Property<int>("PedidoId")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdProduto")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PedidoId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ProdutoId")
+                    b.Property<int>("ProdutoId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantidade")
@@ -178,11 +172,14 @@ namespace DemoEFCore.Migrations
                     b.HasOne("DemoEFCore.Domain.Entities.Pedido", "Pedido")
                         .WithMany("Itens")
                         .HasForeignKey("PedidoId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("DemoEFCore.Domain.Entities.Produto", "Produto")
                         .WithMany()
-                        .HasForeignKey("ProdutoId");
+                        .HasForeignKey("ProdutoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Pedido");
 

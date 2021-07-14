@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DemoEFCore.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20210713020710_PrimeiraMigracao")]
+    [Migration("20210714111848_PrimeiraMigracao")]
     partial class PrimeiraMigracao
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,6 +37,10 @@ namespace DemoEFCore.Migrations
                         .HasMaxLength(60)
                         .HasColumnType("nvarchar(60)");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(80)");
+
                     b.Property<string>("Estado")
                         .IsRequired()
                         .HasColumnType("VARCHAR(2)");
@@ -50,6 +54,8 @@ namespace DemoEFCore.Migrations
                         .HasColumnType("CHAR(11)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Email");
 
                     b.HasIndex("Telefone");
 
@@ -99,16 +105,10 @@ namespace DemoEFCore.Migrations
                     b.Property<decimal>("Desconto")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("IdPedido")
+                    b.Property<int>("PedidoId")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdProduto")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PedidoId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ProdutoId")
+                    b.Property<int>("ProdutoId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantidade")
@@ -174,11 +174,14 @@ namespace DemoEFCore.Migrations
                     b.HasOne("DemoEFCore.Domain.Entities.Pedido", "Pedido")
                         .WithMany("Itens")
                         .HasForeignKey("PedidoId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("DemoEFCore.Domain.Entities.Produto", "Produto")
                         .WithMany()
-                        .HasForeignKey("ProdutoId");
+                        .HasForeignKey("ProdutoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Pedido");
 

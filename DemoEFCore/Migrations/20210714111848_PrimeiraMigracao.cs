@@ -17,7 +17,8 @@ namespace DemoEFCore.Migrations
                     Telefone = table.Column<string>(type: "CHAR(11)", nullable: false),
                     CEP = table.Column<string>(type: "CHAR(8)", nullable: false),
                     Estado = table.Column<string>(type: "VARCHAR(2)", nullable: false),
-                    Cidade = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false)
+                    Cidade = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
+                    Email = table.Column<string>(type: "VARCHAR(80)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -30,8 +31,8 @@ namespace DemoEFCore.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CodigoBarras = table.Column<string>(type: "VARCHAR(14)", nullable: false),
                     Descricao = table.Column<string>(type: "VARCHAR(60)", nullable: false),
+                    CodigoBarras = table.Column<string>(type: "VARCHAR(14)", nullable: false),
                     Valor = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     TipoProduto = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Ativo = table.Column<bool>(type: "bit", nullable: false)
@@ -71,10 +72,8 @@ namespace DemoEFCore.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    IdPedido = table.Column<int>(type: "int", nullable: false),
-                    PedidoId = table.Column<int>(type: "int", nullable: true),
-                    IdProduto = table.Column<int>(type: "int", nullable: false),
-                    ProdutoId = table.Column<int>(type: "int", nullable: true),
+                    PedidoId = table.Column<int>(type: "int", nullable: false),
+                    ProdutoId = table.Column<int>(type: "int", nullable: false),
                     Quantidade = table.Column<int>(type: "int", nullable: false, defaultValue: 1),
                     Valor = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Desconto = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
@@ -93,8 +92,13 @@ namespace DemoEFCore.Migrations
                         column: x => x.ProdutoId,
                         principalTable: "Produtos",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Clientes_Email",
+                table: "Clientes",
+                column: "Email");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Clientes_Telefone",
